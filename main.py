@@ -44,7 +44,7 @@ class controller(object):
     
 
     def checkForImage(self):
-        print('check')
+
         self.objectTracker.checkForImage()
         
 
@@ -66,7 +66,7 @@ class controller(object):
                     print('imgs was none')
 
             else:
-                print('kut')
+                print('Not Main Thread')
 
             sleep(0.1)
 

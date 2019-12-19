@@ -15,9 +15,9 @@ class ObjectTracker(object):
 		self.vs = VideoStream(src=0).start()
 		# initialize the first frame in the video stream
 		self.firstFrame = None
-		self.testframe = self.vs.read()
 		self.d = None
 		self.previousFrame = None
+		self.objectFound = None
 
 	def __del__(self):
 		print('object del')
@@ -72,13 +72,12 @@ class ObjectTracker(object):
 		# and update the text
 			(x, y, w, h) = cv2.boundingRect(c)
 			cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-			objectFound = frame[y:y+h, x:x+w]
+			self.objectFound = frame[y:y+h, x:x+w]
 			cv2.putText(frame,'contourArea : ' + str(cv2.contourArea(c)), 
     			(x,y), 
     			cv2.FONT_HERSHEY_SIMPLEX, 
-    			1/2,
+    			3/4,
     			(255,0,0),
     			1)
 		self.previousFrame = gray
-		print('d updated')
-		self.d = [frame, objectFound]
+		self.d = [frame, self.objectFound]
