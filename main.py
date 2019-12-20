@@ -19,10 +19,7 @@ class controller(object):
         self.thImage = threading.Thread(target= self.startImageTimer)
         self.thImage.start()
         self.checkForImage()
-       
-    
-
-
+        
     def startMainLoopTimer(self):
         if(threading.currentThread() == threading.main_thread()):
             print('main in start')
