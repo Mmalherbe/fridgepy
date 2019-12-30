@@ -1,5 +1,6 @@
 # import the necessary packages
 from imutils.video import VideoStream
+from imagefiltering import imageFilter
 import imutils
 import time
 import cv2
@@ -16,6 +17,8 @@ class ObjectTracker(object):
 		self.d = None
 		self.previousFrame = None
 		self.objectFound = None
+		self.framefilteredprevious = None
+		self.imageFilter = imageFilter()
 
 	def __del__(self):
 		print('object del')
@@ -27,10 +30,9 @@ class ObjectTracker(object):
 
 	def checkForImage(self):
     	
-		objectFound = None 
+		self.objectFound = None 
 	#time.sleep(1/self.fps)
 	# grab the current frame and initialize the occupied/unoccupied
-	# text
 		frame = self.vs.read()
     # Make sure we have a frame to use. Otherwise break
 		if frame is None: 
@@ -39,17 +41,19 @@ class ObjectTracker(object):
 	# resize the frame, convert it to grayscale, and blur it
 		frame = imutils.resize(frame, width=500)
 		self.testframe = frame
+		framefiltered = self.imageFilter.GMGfilter(frame)
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		gray = cv2.GaussianBlur(gray, (21, 21), 0)
+		gray = cv2.GaussianBlur(gray, (31, 31), 0)
 
 	# if the first frame is None, initialize it
 		if self.firstFrame is None:
 			self.firstFrame = gray
 			self.previousFrame = gray
-
+			self.framefilteredprevious = gray
+		
 	# compute the absolute difference between the current frame and
 	# first frame
-		frameDelta = cv2.absdiff(self.previousFrame, gray)
+		frameDelta = cv2.absdiff(gray, self.previousFrame)
 		thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
 	# dilate the thresholded image to fill in holes, then find contours
@@ -78,4 +82,5 @@ class ObjectTracker(object):
     			(255,0,0),
     			1)
 		self.previousFrame = gray
-		self.d = [frame, self.objectFound]
+		self.framefilteredprevious = framefiltered
+		self.d = [frame,framefiltered, self.objectFound]

@@ -4,7 +4,7 @@ import time
 import cv2
 
 class imageFilter(object):
-    def __init__(self, initializationFrames = 10, decisionThreshold = .8):
+    def __init__(self, initializationFrames = 100, decisionThreshold = .8):
         self.initializationFrames = initializationFrames
         self.decisionThreshold = decisionThreshold
         self.gmgMask = None
@@ -14,7 +14,9 @@ class imageFilter(object):
     def GMGfilter(self,frame):
         if frame is not None:
             self.tempFrame = frame
-
+        else:
+            return None
+            
         self.gmgMask = self.gmgSubtractor.apply(self.tempFrame)
         self.gmgMask = cv2.morphologyEx(self.gmgMask, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)))
         return self.gmgMask
