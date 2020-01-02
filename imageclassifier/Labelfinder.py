@@ -15,12 +15,12 @@ class imageClassifier(object):
     def __init__(self,input_mean = 127.5,input_std = 127.5):
         self.input_mean = input_mean
         self.input_std = input_std
-        self.model_file = '/Users/mmalherbe/Desktop/fridgepy/imageclassifier/'+'fridgev2.tflite'
+        self.model_file = '/Users/mmalherbe/Desktop/fridgepy/imageclassifier/'+'fridgev3.tflite'
         self.label_file = '/Users/mmalherbe/Desktop/fridgepy/imageclassifier/'+'class_labels.txt'
         self.interpreter = tf.lite.Interpreter(model_path=self.model_file)
         self.interpreter.allocate_tensors()
         self.resultProbs = dict()
-        self.treshold = 0.5
+        self.treshold = 0.1
 
 
     def load_labels(self,filename):

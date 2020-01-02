@@ -6,7 +6,7 @@ import time
 import cv2
 
 class ObjectTracker(object):
-	def __init__(self, amountofIterations = 10,minArea = 5000,maxArea = 20000,fps = 10, *args, **kwargs):
+	def __init__(self, amountofIterations = 10,minArea = 10000,maxArea = 40000,fps = 10, *args, **kwargs):
 		self.amountofIterations = amountofIterations
 		self.minArea = minArea
 		self.maxArea = maxArea
