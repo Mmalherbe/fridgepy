@@ -48,25 +48,26 @@ class GuiWindow(App):
         btn_cancel = Button(text='Cancel',
                            on_press=partial(self.cancel))  
         btn_closeApp = Button(text='shutdown',
-                            on_press=partial(self.closeApp))                         
-        self.imgLayout = BoxLayout(height= self.wid.height - 160)
+                            on_press=partial(self.closeApp))    
+        self.fullLayout = BoxLayout(orientation='vertical')                                        
+        self.imgLayout = BoxLayout(orientation='horizontal',height= self.wid.height - 160, width = 480)
         self.imgLayout.add_widget(self.RealTimeImageOfProduct)
         self.imgLayout.add_widget(self.lblProductName)
         self.imgLayout.add_widget(self.lblAmountOfStock)
         self.imgLayout.add_widget(self.ProductFoundImage)
-        self.btnLayout = BoxLayout(size_hint=(1, None), height=160)
+        self.fullLayout.add_widget(self.imgLayout)
+        self.btnLayout = BoxLayout(orientation='horizontal',size_hint=(1, None), height=160)
         self.btnLayout.add_widget(btn_addOne)
         self.btnLayout.add_widget(btn_SubtractOne)
         self.btnLayout.add_widget(btn_Confirm)
         self.btnLayout.add_widget(btn_reset)
         self.btnLayout.add_widget(btn_cancel)
         self.btnLayout.add_widget(btn_closeApp)
-        
+        self.fullLayout.add_widget(self.btnLayout)
 
         self.root = BoxLayout(orientation='vertical')
-        self.root.add_widget(self.wid)
-        self.root.add_widget(self.imgLayout)
-        self.root.add_widget(self.btnLayout)
+        self.root.add_widget(self.fullLayout)
+        #self.root.add_widget(self.wid)
         return self.root
     def setEvents(self):
         self.event = Clock.schedule_interval(self.redraw,0.1)
