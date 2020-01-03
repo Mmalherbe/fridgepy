@@ -16,6 +16,7 @@ class controller(object):
         self.loopTimer = None
         self.frame = None
         self.objectFound =  None
+        self.mayLookForProduct = True
         self.objectTracker = ObjectTracker()
         self.d = None
         self.window = GuiWindow(self)
@@ -26,8 +27,8 @@ class controller(object):
         self.thImage.start()
         self.checkForImage()
         self.window.setEvents()
-        self.window.run()
-        self.mayLookForProduct = False
+        self.window.run() # make sure I'm last 
+
         
     def startMainLoopTimer(self):
         self.loopTimer = advancedtimer.RepeatedTimer(1,self.mainLoop)
@@ -51,15 +52,14 @@ class controller(object):
     def ProductChange(self,productName,amount):
         self.dbController.dataBase.set(productName,amount)
     def mainLoop(self):
-                print('main')
-                if self.mayLookForProduct is True:
+                if self.mayLookForProduct is False:
                     return
                 imgs = self.objectTracker.getD()
-                k = cv2.waitKey(1) & 0xFF
+                #k = cv2.waitKey(1) & 0xFF
                 # press 'q' to exit
-                if k == ord('q'):
-                    self.stop()
-                    return
+                #if k == ord('q'):
+                #    self.stop()
+                #    return
                 if imgs is not None:
                     if imgs[0] is not None:
                        self.window.updateUI(imgs[0])
@@ -69,13 +69,9 @@ class controller(object):
                         #cv2.imshow('object found', imgs[2])
                         labelprobs=self.productFinder.checkForKnownLabel(imgs[2])
                         if len (labelprobs) > 0: 
-                            print(labelprobs)
+                            self.mayLookForProduct  = False
                             productfound = list(labelprobs.keys())[0]
                             self.window.showFound(productfound,self.dbController.getStock(productfound))
-                            
-                else:
-                    print('imgs was none')
-
     sleep(0.1)
 
 

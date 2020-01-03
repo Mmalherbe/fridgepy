@@ -11,12 +11,9 @@ from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from kivy.properties import StringProperty
 from PIL import Image as pilimg
-class Picture():
-    source = StringProperty(None)
-
 class GuiWindow(App):
     realtimeImageSource = StringProperty('capturedProduct.jpg')
-    def __init__(self,controller, **kwargs):
+    def __init__(self,controller,width = 480,height = 320, **kwargs):
         App.__init__(self)
         self.controller = controller
         self.productFound = ""
@@ -27,11 +24,13 @@ class GuiWindow(App):
         self.RealTimeImageOfProduct = None
         self.event = None
         self.lblProductName = None
+        self.wid.height = height
+        self.wid.width = width
 
     def build(self):
-        
+
         label = Label(text='0')
-        self.lblProductName = Label(text='{"broodjeAap" : 100}')
+        self.lblProductName = Label(text='Product found.')
         self.lblAmountOfStock = Label(text='0')
         self.ProductFoundImage = Image(source="gui/Placeholder.png")
         self.RealTimeImageOfProduct = Image(source=self.realtimeImageSource)
@@ -75,18 +74,23 @@ class GuiWindow(App):
         self.controller.stop()
         
     def addOne(self, *largs):
-        self.lblAmountOfStock.text = int(self.lblAmountOfStock.text) + 1
+        self.lblAmountOfStock.text = str(int(self.lblAmountOfStock.text) + 1)
     def subtractOne(self,*largs):
-         self.lblAmountOfStock.text = int(self.lblAmountOfStock.text) -1
+         self.lblAmountOfStock.text = str(int(self.lblAmountOfStock.text) -1)
     def confirm(self,*largs):
         self.controller.ProductChange(self.lblProductName.text,self.lblAmountOfStock.text)
         self.controller.mayLookForProduct = True
+        self.lblProductName.text = ''
+        self.lblAmountOfStock.text = ''
     def reset(self,*largs):
-        self.lblAmountOfStock.text = self.dbController.dataBase.getStock(self.lblProductName.text)
+        self.lblAmountOfStock.text = str(self.controller.dbController.getStock(self.lblProductName.text))
     def cancel(self,*largs):
         self.controller.mayLookForProduct = True
+        self.lblProductName.text = ''
+        self.lblAmountOfStock.text = ''
     def redraw(self,dt):
         self.RealTimeImageOfProduct.reload()
+        print()
     def updateUI(self,imgCaptured):
         cv2.imwrite('capturedProduct.jpg',imgCaptured)
     def showFound(self,label,inStock):
