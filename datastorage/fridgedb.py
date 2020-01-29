@@ -17,6 +17,9 @@ class FridgeDB(object):
     def _load(self):
         self.db = json.load(open(self.location , "r"))
 
+    def getAll(self):
+        return self.db
+        
     def dumpdb(self):
         try:
             json.dump(self.db , open(self.location, "w+"))

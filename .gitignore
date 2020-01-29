@@ -1,1 +1,6 @@
-tensortrain/data
+tensortrain/dataset/*
+tensortrain/kaggle_dogs_vs_cats/*
+tensortrain/cnntrain/*
+*.pyc
+*/__pycache__/*
+/*/*.pyc

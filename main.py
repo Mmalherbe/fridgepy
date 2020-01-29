@@ -7,7 +7,8 @@ import cv2
 import os
 import threading
 from datastorage.datacontroller import dbController
-        
+import PIL.Image
+
 class controller(object):
     def __init__(self):
         self.imageInterval = 0.1
@@ -48,6 +49,8 @@ class controller(object):
         exit()
     def checkForImage(self):
         self.objectTracker.checkForImage()
+    def getFullStock(self):
+        return self.dbController.getAll()
 
     def ProductChange(self,productName,amount):
         self.dbController.dataBase.set(productName,amount)
@@ -55,11 +58,6 @@ class controller(object):
                 if self.mayLookForProduct is False:
                     return
                 imgs = self.objectTracker.getD()
-                #k = cv2.waitKey(1) & 0xFF
-                # press 'q' to exit
-                #if k == ord('q'):
-                #    self.stop()
-                #    return
                 if imgs is not None:
                     if imgs[0] is not None:
                        self.window.updateUI(imgs[0])

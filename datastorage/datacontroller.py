@@ -7,7 +7,8 @@ class dbController(object):
     def getStock(self,product):
         a = self.dataBase.get(product)
         return a
-
+    def getAll(self):
+        return self.dataBase.getAll()
     def checkDbAndLabels(self):
         with open('imageclassifier/class_labels.txt', 'r') as f:
             for line in f.readlines():
