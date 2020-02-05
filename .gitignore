@@ -4,3 +4,4 @@ tensortrain/cnntrain/*
 *.pyc
 */__pycache__/*
 /*/*.pyc
+capturedProduct.jpg
