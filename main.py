@@ -8,7 +8,7 @@ import os
 import threading
 from datastorage.datacontroller import dbController
 import PIL.Image
-
+import tensorflow as tf # TF2 required
 class controller(object):
     def __init__(self):
         self.imageInterval = 0.1
