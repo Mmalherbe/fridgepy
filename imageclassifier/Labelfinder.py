@@ -44,6 +44,7 @@ class imageClassifier(object):
 
         if floating_model:
             input_data = (np.float32(input_data) - self.input_mean) / self.input_std
+        
         input_tensor= tf.convert_to_tensor(input_data, np.float32)
         self.interpreter.set_tensor(input_details[0]['index'], input_data)
 
