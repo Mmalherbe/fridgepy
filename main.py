@@ -11,7 +11,7 @@ import PIL.Image
 import tensorflow as tf # TF2 required
 class controller(object):
     def __init__(self):
-        self.imageInterval = 0.1
+        self.imageInterval = 0.5
         self.dbController = dbController()
         self.imageTimer = None
         self.loopTimer = None

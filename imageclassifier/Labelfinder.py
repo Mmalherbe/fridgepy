@@ -18,7 +18,7 @@ class imageClassifier(object):
         self.model_file = 'imageclassifier/'+'fridgev3.tflite'
         self.label_file = 'imageclassifier/'+'class_labels.txt'
         self.interpreter = tf.lite.Interpreter(model_path=self.model_file)
-        self.interpreter.allocate_tensors()
+        
         self.resultProbs = dict()
         self.treshold = 0.14
         self.tempframe = None # Possible fix? 
@@ -29,6 +29,7 @@ class imageClassifier(object):
             return [line.strip() for line in f.readlines()]
 
     def checkForKnownLabel(self,frame):
+        self.interpreter.allocate_tensors()
         input_details = self.interpreter.get_input_details()
         output_details = self.interpreter.get_output_details()
         self.tempframe = frame
