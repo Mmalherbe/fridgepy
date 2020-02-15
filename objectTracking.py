@@ -67,7 +67,7 @@ class ObjectTracker(object):
 		for c in cnts:
 		# if the contour is too small or too large, ignore it
 			if cv2.contourArea(c) < self.minArea or cv2.contourArea(c) > self.maxArea:
-				print(cv2.contourArea(c))
+				 #print(cv2.contourArea(c))
 				continue
 
 		# compute the bounding box for the contour, draw it on the frame,
