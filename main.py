@@ -32,7 +32,7 @@ class controller(object):
 
         
     def startMainLoopTimer(self):
-        self.loopTimer = advancedtimer.RepeatedTimer(1,self.mainLoop)
+        self.loopTimer = advancedtimer.RepeatedTimer(0.2,self.mainLoop)
         self.loopTimer.start()
 
     def startImageTimer(self):
@@ -70,7 +70,6 @@ class controller(object):
                             self.mayLookForProduct  = False
                             productfound = list(labelprobs.keys())[0]
                             self.window.showFound(productfound,self.dbController.getStock(productfound))
-    sleep(0.1)
 
 
 
