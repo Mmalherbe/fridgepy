@@ -39,7 +39,6 @@ class GuiWindow(App):
         
     def build(self):
         label = Label(text='0')
-        
         self.lblProductName = Label(text='')
         self.lblAmountOfStock = Label(text='')
 
@@ -127,7 +126,6 @@ class GuiWindow(App):
         self.lblProductName.text = ''
         self.lblAmountOfStock.text = ''
     def redraw(self,dt):
-        if self.imgSaving is False:
             self.RealTimeImageOfProduct.reload()
     def updateUI(self,imgCaptured):
         self.imgSaving = True

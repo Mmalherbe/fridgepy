@@ -21,8 +21,9 @@ class imageClassifier(object):
         self.interpreter.allocate_tensors()
         self.resultProbs = dict()
         self.treshold = 0.14
-
-
+        self.tempframe = None # Possible fix? 
+        self.img = None  # Possible fix?
+ 
     def load_labels(self,filename):
         with open(filename, 'r') as f:
             return [line.strip() for line in f.readlines()]
@@ -30,21 +31,20 @@ class imageClassifier(object):
     def checkForKnownLabel(self,frame):
         input_details = self.interpreter.get_input_details()
         output_details = self.interpreter.get_output_details()
-
+        self.tempframe = frame
         # check the type of the input tensor
         floating_model = input_details[0]['dtype'] == np.float32
 
   # NxHxWxC, H:1, W:2
         height = input_details[0]['shape'][1]
         width = input_details[0]['shape'][2]
-        img = Image.fromarray(frame).resize((width, height))
+        self.img = Image.fromarray(self.tempframe).resize((width, height))
 
   # add N dim
-        input_data = np.expand_dims(img, axis=0)
+        input_data = np.expand_dims(self.img, axis=0)
 
         if floating_model:
             input_data = (np.float32(input_data) - self.input_mean) / self.input_std
-            
         input_tensor= tf.convert_to_tensor(input_data, np.uint8)
         self.interpreter.set_tensor(input_details[0]['index'], input_data)
 
