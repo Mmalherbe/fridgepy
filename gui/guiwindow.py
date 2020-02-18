@@ -85,6 +85,7 @@ class GuiWindow(App):
         self.root.add_widget(self.fullLayout)
         self.showStock(self.controller.getFullStock())   
         return self.root
+        
     def showFound(self,label,inStock):
         self.lblProductName.text = str(label)
         self.lblAmountOfStock.text = str(inStock)
