@@ -66,6 +66,8 @@ class controller(object):
                     if imgs[2] is not None:
                         #cv2.imshow('object found', imgs[2])
                         labelprobs=self.productFinder.checkForKnownLabel(imgs[2])
+                        if labelprobs is None:
+                            return
                         if len (labelprobs) > 0: 
                             self.mayLookForProduct  = False
                             productfound = list(labelprobs.keys())[0]
