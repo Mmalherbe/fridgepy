@@ -21,14 +21,16 @@ class imageClassifier(object):
         
         self.resultProbs = dict()
         self.treshold = 0.14
-        self.tempframe = None # Possible fix? 
-        self.img = None  # Possible fix?
+        self.checkingForLabel = False
  
     def load_labels(self,filename):
         with open(filename, 'r') as f:
             return [line.strip() for line in f.readlines()]
 
     def checkForKnownLabel(self,frame):
+        if self.checkingForLabel : 
+            return None
+        self.checkingForLabel = True
         self.interpreter.allocate_tensors()
         input_details = self.interpreter.get_input_details()
         output_details = self.interpreter.get_output_details()
@@ -65,4 +67,5 @@ class imageClassifier(object):
                 #print('{:08.6f}: {}'.format(float(results[i] / 255.0), labels[i]))
             if(float(results[i]) > self.treshold):
                 self.resultProbs[labels[i]] = results[i]
+        self.checkingForLabel = False
         return self.resultProbs

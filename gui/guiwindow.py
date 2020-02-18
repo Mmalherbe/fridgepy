@@ -100,7 +100,7 @@ class GuiWindow(App):
 
 
     def setEvents(self):
-        self.event = Clock.schedule_interval(self.redraw,0.1)
+        self.event = Clock.schedule_interval(self.redraw,0.5)
     def closeApp(self,*largs):
         self.controller.stop()
     def addOne(self, *largs):
@@ -126,6 +126,7 @@ class GuiWindow(App):
         self.lblProductName.text = ''
         self.lblAmountOfStock.text = ''
     def redraw(self,dt):
+        if self.imgSaving is False:
             self.RealTimeImageOfProduct.reload()
     def updateUI(self,imgCaptured):
         self.imgSaving = True
