@@ -15,7 +15,7 @@ from kivy.graphics.texture import Texture
 from kivy.properties import StringProperty
 
 class GuiWindow(App):
-    realtimeImageSource = StringProperty('capturedProduct.jpg')
+    realtimeImageSource = StringProperty('~/Desktop/Fridgepy/capturedProduct.jpg')
     def __init__(self,controller,width = 480,height = 320, **kwargs):
         App.__init__(self)
         self.controller = controller
@@ -85,7 +85,7 @@ class GuiWindow(App):
         self.root.add_widget(self.fullLayout)
         self.showStock(self.controller.getFullStock())   
         return self.root
-        
+
     def showFound(self,label,inStock):
         self.lblProductName.text = str(label)
         self.lblAmountOfStock.text = str(inStock)
@@ -131,7 +131,7 @@ class GuiWindow(App):
             self.RealTimeImageOfProduct.reload()
     def updateUI(self,imgCaptured):
         self.imgSaving = True
-        cv2.imwrite('capturedProduct.jpg',imgCaptured)
+        cv2.imwrite('~/Desktop/Fridgepy/capturedProduct.jpg',imgCaptured)
         self.imgSaving = False
 
 
