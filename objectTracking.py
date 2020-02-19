@@ -11,7 +11,7 @@ class ObjectTracker(object):
 		self.minArea = minArea
 		self.maxArea = maxArea
 		self.fps = fps
-		self.vs = VideoStream(usePiCamera=True).start()
+		self.vs = VideoStream(usePiCamera=False).start()
 		# initialize the first frame in the video stream
 		self.firstFrame = None
 		self.d = None
