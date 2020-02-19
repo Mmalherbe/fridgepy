@@ -15,7 +15,7 @@ from kivy.graphics.texture import Texture
 from kivy.properties import StringProperty
 
 class GuiWindow(App):
-    realtimeImageSource = StringProperty('~/Desktop/Fridgepy/capturedProduct.jpg')
+    realtimeImageSource = StringProperty('capturedProduct.jpg')
     def __init__(self,controller,width = 480,height = 320, **kwargs):
         App.__init__(self)
         self.controller = controller
@@ -36,11 +36,12 @@ class GuiWindow(App):
         self.stocklblWdith = None
         self.stocklblHeight = 50
         self.imgSaving = False
-        
+        self.fontsize = '10sp'
+
     def build(self):
         label = Label(text='0')
-        self.lblProductName = Label(text='')
-        self.lblAmountOfStock = Label(text='')
+        self.lblProductName = Label(text='', font_size=self.fontsize)
+        self.lblAmountOfStock = Label(text='', font_size=self.fontsize)
 
         self.RealTimeImageOfProduct = Image(source=self.realtimeImageSource)
         btn_addOne = Button(text='+1',size=(self.btnwidth,self.btnheight),
@@ -72,7 +73,7 @@ class GuiWindow(App):
         self.imgLayout.add_widget(self.stock_root)
         
         self.fullLayout.add_widget(self.imgLayout)
-        self.btnLayout = BoxLayout(orientation='horizontal',size=(self.wid.width,self.wid.height/3))
+        self.btnLayout = BoxLayout(orientation='horizontal',width=self.wid.width,height=(self.wid.height/10))
         self.btnLayout.add_widget(btn_addOne)
         self.btnLayout.add_widget(btn_SubtractOne)
         self.btnLayout.add_widget(btn_Confirm)
@@ -95,7 +96,7 @@ class GuiWindow(App):
         self.stock_root = ScrollView(size_hint=(1,1))
         self.stock_layout.clear_widgets()
         for l in _stock :
-            stock = Label(text = str(l + " : " + str(_stock[l])),height= self.stocklblHeight, size_hint=(1,1))
+            stock = Label(text = str(l + " : " + str(_stock[l])),height= self.stocklblHeight, size_hint=(1,1), font_size=self.fontsize)
             self.stock_layout.add_widget(stock)
         
 
@@ -131,10 +132,9 @@ class GuiWindow(App):
             self.RealTimeImageOfProduct.reload()
     def updateUI(self,imgCaptured):
         self.imgSaving = True
-        cv2.imwrite('~/Desktop/Fridgepy/capturedProduct.jpg',imgCaptured)
+        cv2.imwrite('capturedProduct.jpg',imgCaptured)
         self.imgSaving = False
 
 
 
     
-
