@@ -4,7 +4,6 @@ tensortrain/cnntrain/*
 *.pyc
 */__pycache__/*
 /*/*.pyc
-capturedProduct.jpg
 Python-3.6.8/Python/_warnings.c
 Python-3.6.8/Python/_warnings.o
 Python-3.6.8/Python/asdl.c
