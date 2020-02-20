@@ -66,7 +66,7 @@ class GuiWindow(App):
         self.fullLayout = BoxLayout(orientation='vertical')                                        
         self.imgLayout = BoxLayout(orientation='horizontal',size=(self.wid.height/3,self.wid.width/3))
         self.imgLayout.add_widget(self.RealTimeImageOfProduct)
-        self.productFoundBox = BoxLayout(orientation='vertical',size=(self.wid.height/3,self.wid.width/4),padding=20)
+        self.productFoundBox = BoxLayout(orientation='vertical',size_hint(0.3,None))
         self.productFoundBox.add_widget(self.lblProductName)
         self.productFoundBox.add_widget(self.lblAmountOfStock)
         self.imgLayout.add_widget(self.productFoundBox)
