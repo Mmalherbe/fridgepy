@@ -6,12 +6,12 @@ import time
 import cv2
 
 class ObjectTracker(object):
-	def __init__(self, amountofIterations = 10,minArea = 10000,maxArea = 40000,fps = 10, *args, **kwargs):
+	def __init__(self,rpi = False, amountofIterations = 10,minArea = 10000,maxArea = 40000,fps = 10, *args, **kwargs):
 		self.amountofIterations = amountofIterations
 		self.minArea = minArea
 		self.maxArea = maxArea
 		self.fps = fps
-		self.vs = VideoStream(usePiCamera=True).start()
+		self.vs = VideoStream(usePiCamera=rpi).start()
 		# initialize the first frame in the video stream
 		self.firstFrame = None
 		self.d = None
@@ -19,6 +19,7 @@ class ObjectTracker(object):
 		self.objectFound = None
 		self.framefilteredprevious = None
 		self.imageFilter = imageFilter()
+		self.movementFound = False
 
 	def __del__(self):
 		print('object del')
@@ -62,14 +63,14 @@ class ObjectTracker(object):
 		cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
 		cnts = imutils.grab_contours(cnts)
-
+		anyLargeEnoughContours = False
 	# loop over the contours
 		for c in cnts:
 		# if the contour is too small or too large, ignore it
+			if cv2.contourArea(c) > self.minArea:
+    				anyLargeEnoughContours = True
 			if cv2.contourArea(c) < self.minArea or cv2.contourArea(c) > self.maxArea:
-				 #print(cv2.contourArea(c))
 				continue
-
 		# compute the bounding box for the contour, draw it on the frame,
 		# and update the text
 			(x, y, w, h) = cv2.boundingRect(c)
@@ -81,6 +82,7 @@ class ObjectTracker(object):
     			3/4,
     			(255,0,0),
     			1)
+		self.movementFound = anyLargeEnoughContours
 		self.previousFrame = gray
 		self.framefilteredprevious = framefiltered
 		self.d = [frame,framefiltered, self.objectFound]
