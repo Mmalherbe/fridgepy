@@ -12,8 +12,13 @@ import PIL.Image
 import tensorflow as tf # TF2 required
 class controller(object):
     def __init__(self):
-        with open('/sys/firmware/devicetree/base/model', 'r') as f:
-            isRaspberry = "raspberry" in f
+        try:
+            with open('/sys/firmware/devicetree/base/model', 'r') as f:
+                isRaspberry = "raspberry" in f
+        except:
+            isRaspberry = False
+            pass
+        
         self.imageInterval = 0.5
         self.dbController = dbController()
         self.imageTimer = None
@@ -29,15 +34,16 @@ class controller(object):
         self.productFinder = imageClassifier()
         self.thImage = threading.Thread(target= self.startImageTimer)
         self.thMain = threading.Thread(target=self.startMainLoopTimer)
-        self.thScreensave = threading.Thread(target = self.startScreensaveTimer)
+        self.thScreensave = threading.Thread(target=self.startScreensaveTimer)
         self.thMain.start()
         self.thImage.start()
+        self.thScreensave.start()
         self.checkForImage()
         self.window.setEvents()
         self.movementDetected = False
         self.window.run() # make sure I'm last 
 
-    def screenSaveCheck(self,forceOn):
+    def screenSaveCheck(self, forceOn=False):
         if forceOn:
             self.screenSaver.switchScreenSaver(tunOff=False)
             self.screenSaveTimer.stop()
@@ -48,7 +54,7 @@ class controller(object):
 
 
     def startScreensaveTimer(self):
-        self.screenSaveTimer = advancedtimer.RepeatedTimer(10,self.screenSaveCheck)
+        self.screenSaveTimer = advancedtimer.RepeatedTimer(1,self.screenSaveCheck)
         self.screenSaveTimer.start()
         
     def startMainLoopTimer(self):
