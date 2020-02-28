@@ -68,6 +68,7 @@ class ObjectTracker(object):
 		for c in cnts:
 		# if the contour is too small or too large, ignore it
 			if cv2.contourArea(c) > self.minArea:
+    				print('large enough')
     				anyLargeEnoughContours = True
 			if cv2.contourArea(c) < self.minArea or cv2.contourArea(c) > self.maxArea:
 				continue
@@ -85,4 +86,4 @@ class ObjectTracker(object):
 		self.movementFound = anyLargeEnoughContours
 		self.previousFrame = gray
 		self.framefilteredprevious = framefiltered
-		self.d = [frame,framefiltered, self.objectFound]
+		self.d = [frame,self.movementFound, self.objectFound]

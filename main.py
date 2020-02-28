@@ -34,28 +34,15 @@ class controller(object):
         self.productFinder = imageClassifier()
         self.thImage = threading.Thread(target= self.startImageTimer)
         self.thMain = threading.Thread(target=self.startMainLoopTimer)
-        self.thScreensave = threading.Thread(target=self.startScreensaveTimer)
+
         self.thMain.start()
         self.thImage.start()
-        self.thScreensave.start()
         self.checkForImage()
         self.window.setEvents()
         self.movementDetected = False
         self.window.run() # make sure I'm last 
 
-    def screenSaveCheck(self, forceOn=False):
-        if forceOn:
-            self.screenSaver.switchScreenSaver(tunOff=False)
-            self.screenSaveTimer.stop()
-            self.screenSaveTimer.start()
 
-        elif self.movementDetected is False :
-            self.screenSaver.switchScreenSaver(turnOff=True)
-
-
-    def startScreensaveTimer(self):
-        self.screenSaveTimer = advancedtimer.RepeatedTimer(1,self.screenSaveCheck)
-        self.screenSaveTimer.start()
         
     def startMainLoopTimer(self):
         self.loopTimer = advancedtimer.RepeatedTimer(0.2,self.mainLoop)
@@ -70,7 +57,6 @@ class controller(object):
     def stop(self):
         self.imageTimer.stop()
         self.thImage._stop()
-        self.thScreensave._stop()
         self.loopTimer.stop()
         self.window.stop()
         os._exit(1)
@@ -89,8 +75,9 @@ class controller(object):
                 if imgs is not None:
                     if imgs[0] is not None:
                        self.window.updateUI(imgs[0])
-                    #if imgs[1] is not None:
-                       # cv2.imshow('frame filtered', imgs[1])
+                    if imgs[1] is not None:
+                        print('go on. forceon ; ' +str(imgs[1]))
+                        self.screenSaver.switchScreenSaver(turnOff=imgs[1])
                     if imgs[2] is not None:
                         #cv2.imshow('object found', imgs[2])
                         labelprobs=self.productFinder.checkForKnownLabel(imgs[2])
