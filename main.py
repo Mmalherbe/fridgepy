@@ -66,7 +66,7 @@ class controller(object):
         self.thImage._stop()
         self.loopTimer.stop()
         self.window.stop()
-        self.thScreenSave.stop()
+        self.screenSaveTimer.stop()
         os._exit(1)
         exit()
     def checkForImage(self):
