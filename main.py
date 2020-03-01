@@ -46,6 +46,8 @@ class controller(object):
     def screensaveSwitch(self):
         if self.objectTracker.movementFound is False:
             self.screenSaver.switchScreenSaver(True)
+        else:
+            self.screenSaver.switchScreenSaver(False)
 
     def startScreenSaveTimer(self):
         self.screenSaveTimer = advancedtimer.RepeatedTimer(10,self.screensaveSwitch)
