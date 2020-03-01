@@ -44,7 +44,7 @@ class controller(object):
         self.window.run() # make sure I'm last 
 
     def screensaveSwitch(self):
-        if self.objectTracker.movementFound is False:
+        if self.objectTracker.movementFound is False and self.mayLookForProduct is True:
             self.screenSaver.switchScreenSaver(True)
         else:
             self.screenSaver.switchScreenSaver(False)
