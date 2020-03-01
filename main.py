@@ -34,7 +34,8 @@ class controller(object):
         self.productFinder = imageClassifier()
         self.thImage = threading.Thread(target= self.startImageTimer)
         self.thMain = threading.Thread(target=self.startMainLoopTimer)
-
+        self.thScreenSave = threading.Thread(target=self.startScreenSaveTimer)
+        self.thScreenSave.start()
         self.thMain.start()
         self.thImage.start()
         self.checkForImage()
@@ -42,8 +43,14 @@ class controller(object):
         self.movementDetected = False
         self.window.run() # make sure I'm last 
 
+    def screensaveSwitch(self):
+        if self.objectTracker.movementFound is False:
+            self.screenSaver.switchScreenSaver(True)
 
-        
+    def startScreenSaveTimer(self):
+        self.screenSaveTimer = advancedtimer.RepeatedTimer(10,self.screensaveSwitch)
+        self.screenSaveTimer.start()
+
     def startMainLoopTimer(self):
         self.loopTimer = advancedtimer.RepeatedTimer(0.2,self.mainLoop)
         self.loopTimer.start()
@@ -59,6 +66,7 @@ class controller(object):
         self.thImage._stop()
         self.loopTimer.stop()
         self.window.stop()
+        self.thScreenSave.stop()
         os._exit(1)
         exit()
     def checkForImage(self):
@@ -75,8 +83,7 @@ class controller(object):
                 if imgs is not None:
                     if imgs[0] is not None:
                        self.window.updateUI(imgs[0])
-                    if imgs[1] is not None:
-                        print('go on. forceon ; ' +str(imgs[1]))
+                    if imgs[1] is not None and imgs[1] is True:
                         self.screenSaver.switchScreenSaver(turnOff=imgs[1])
                     if imgs[2] is not None:
                         #cv2.imshow('object found', imgs[2])

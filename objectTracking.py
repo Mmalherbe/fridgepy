@@ -63,13 +63,13 @@ class ObjectTracker(object):
 		cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
 		cnts = imutils.grab_contours(cnts)
-		anyLargeEnoughContours = False
+		TurnScreenOn = False
 	# loop over the contours
 		for c in cnts:
 		# if the contour is too small or too large, ignore it
 			if cv2.contourArea(c) > self.minArea:
     				print('large enough')
-    				anyLargeEnoughContours = True
+    				TurnScreenOn = True
 			if cv2.contourArea(c) < self.minArea or cv2.contourArea(c) > self.maxArea:
 				continue
 		# compute the bounding box for the contour, draw it on the frame,
@@ -83,7 +83,7 @@ class ObjectTracker(object):
     			3/4,
     			(255,0,0),
     			1)
-		self.movementFound = anyLargeEnoughContours
+		self.movementFound = TurnScreenOn
 		self.previousFrame = gray
 		self.framefilteredprevious = framefiltered
 		self.d = [frame,self.movementFound, self.objectFound]
