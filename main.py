@@ -86,7 +86,7 @@ class controller(object):
                     if imgs[0] is not None:
                        self.window.updateUI(imgs[0])
                     if imgs[1] is not None and imgs[1] is True:
-                        self.screenSaver.switchScreenSaver(turnOff=imgs[1])
+                        self.screenSaver.switchScreenSaver(turnOff=imgs[1],overRule = True)
                     if imgs[2] is not None:
                         #cv2.imshow('object found', imgs[2])
                         labelprobs=self.productFinder.checkForKnownLabel(imgs[2])
