@@ -21,6 +21,7 @@ class imageClassifier(object):
         
         self.resultProbs = dict()
         self.treshold = 0.20
+        #self.treshold = 0.14  #Added as fallback when showing.
         self.checkingForLabel = False
  
     def load_labels(self,filename):
