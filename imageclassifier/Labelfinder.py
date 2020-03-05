@@ -20,7 +20,7 @@ class imageClassifier(object):
         self.interpreter = tf.lite.Interpreter(model_path=self.model_file)
         
         self.resultProbs = dict()
-        self.treshold = 0.14
+        self.treshold = 0.20
         self.checkingForLabel = False
  
     def load_labels(self,filename):
