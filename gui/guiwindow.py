@@ -13,11 +13,16 @@ import cv2
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from kivy.properties import StringProperty
+from kivy.config import Config
+
 
 class GuiWindow(App):
     realtimeImageSource = StringProperty('capturedProduct.jpg')
     def __init__(self,controller,width = 480,height = 320, **kwargs):
         App.__init__(self)
+        Config.set('graphics', 'fullscreen', 'auto')
+        Config.set('graphics', 'window_state', 'maximized')
+        Config.write()
         self.controller = controller
         self.productFound = ""
         self.wid = Widget()
